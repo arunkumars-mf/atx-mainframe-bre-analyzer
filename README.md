@@ -95,10 +95,14 @@ components = navigator.get_all_component_files()
 ### Business Function Analysis
 - `list_business_functions` - List all business functions with entry points
 - `get_business_function_details` - Get detailed information about a specific business function
+- `get_business_function_rules` - Get comprehensive rule count and analysis for a business function
+- `get_all_business_function_rule_counts` - Get rule counts for all business functions
 
 ### Component Discovery  
 - `list_all_components` - List all COBOL and JCL component files
 - `search_components` - Search for component files by pattern or program name
+- `read_component_bre_content` - Read the complete content of a component BRE JSON file
+- `get_component_rule_analysis` - Get detailed rule analysis for a specific component
 
 ### System Analysis
 - `get_bre_overview` - Get complete BRE hierarchy overview with statistics
@@ -119,6 +123,26 @@ print(f"COBOL: {len(components['cobol'])}, JCL: {len(components['jcl'])}")
 # Search for specific components
 results = navigator.search_components_by_pattern("COACT")
 print(f"Found {len(results['cobol'])} COBOL matches")
+```
+
+### Rule Analysis
+
+```python
+# Get rule analysis for a specific component
+rule_analysis = navigator.count_rules_in_bre_file(Path("component.json"))
+print(f"Total rules: {rule_analysis['total_rules']}")
+print(f"Business rules: {rule_analysis['business_rules']}")
+
+# Get comprehensive rule analysis for a business function
+function_rules = navigator.get_business_function_rule_count("AccountManagement")
+print(f"Function rules: {function_rules['total_rules']}")
+print(f"Components analyzed: {len(function_rules['components'])}")
+
+# Read complete BRE content for a component
+content = navigator.read_component_bre_file("PROGRAM1", "cbl")
+if "error" not in content:
+    print(f"File size: {content['file_size']} bytes")
+    print(f"Data keys: {list(content['data'].keys())}")
 ```
 
 ### Business Function Discovery
